@@ -42,7 +42,6 @@ class TableForm extends Component {
         <div class="row mb-3">
           <div class="col">
             <div>
-              <p>Tìm kiếm sinh viên theo mã</p>
               <div className="input-group">
                 <input type="text" className="form-control" placeholder="Nhập mã sinh viên" onChange={this.handleInput} />
                 <div className="input-group-prepend">
