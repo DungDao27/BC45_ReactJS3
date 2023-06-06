@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-class TableForm extends Component {
+class TableField extends Component {
   handleDelete = key => {
     const action = {
       type: "HANDLE_DELETE",
@@ -42,6 +42,7 @@ class TableForm extends Component {
         <div class="row mb-3">
           <div class="col">
             <div>
+              <p>Tìm kiếm sinh viên theo mã</p>
               <div className="input-group">
                 <input type="text" className="form-control" placeholder="Nhập mã sinh viên" onChange={this.handleInput} />
                 <div className="input-group-prepend">
@@ -91,4 +92,4 @@ const mapStateToProps = state => ({
   searchString: state.searchString
 })
 
-export default connect(mapStateToProps)(TableForm);
+export default connect(mapStateToProps)(TableField);

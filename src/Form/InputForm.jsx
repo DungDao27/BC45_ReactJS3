@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { students } from './Reducer/students';
 
 
 
 
-
-class InputForm extends Component {
+class InputField extends Component {
   handleInput = e => {
     const { id, value } = e.target;
     let message = ""
@@ -13,9 +13,9 @@ class InputForm extends Component {
     // eslint-disable-next-line default-case
     switch (dataType) {
       case "letter": {
-        let regexLetter = /^[a-zA-Z\s]*$/;
+        let regexLetter = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
         if (!regexLetter.test(value.trim())) {
-          message =  ' phải là dạng ký tự';
+          message =' phải dạng ký tự';
         }
         break;
       }
@@ -23,26 +23,34 @@ class InputForm extends Component {
         let min = JSON.parse(e.target.getAttribute("min-maxLength"))[0];
         let max = JSON.parse(e.target.getAttribute("min-maxLength"))[1];
         if (value.length < min || value.length > max) {
-          message = ` phải có độ dài từ ${min} số đến ${max} số`
+          message = ` phải dài từ ${min} số đến ${max} số`
         }
         break;
+      }
+      case "id":{
+        let regexNumber = /^[0-9]+$/;
+          if(!regexNumber.test(value))
+          {
+            message = ' phải là số';
+          }
+          break;
       }
       // eslint-disable-next-line no-fallthrough
       case "email": {
         var mailformat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\ [[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (!mailformat.test(value)) {
-          message ='chưa đúng dạng chuẩn của email'
+          message =' chưa đúng dạng Email'
           break;
         }
       }
     }
     if (value.trim() == "") {
-      message =  " Không được bỏ trống";
+      message =" không được bỏ trống";
     }
         if (id == "key") {
      let duplicateKey =  this.props.students.find(student => student.key == e.target.value)
         if (duplicateKey) {
-          message =  " đã tồn tại"
+          message = id + " đã tồn tại"
           const action= {
             type: "HANLDE_KEY",
             payload: {message, id}
@@ -116,17 +124,17 @@ class InputForm extends Component {
       <div className='container mb-5'>
         <form className='card'>
           <div className="card-header bg-dark">
-            <h3 className='text-white'>Thông tin sinh viên</h3>
+            <h3 className='text-white'>Quản lý sinh viên</h3>
           </div>
           <div className="card-body">
             <div className="row mb-3">
               <div className="col-6">
-                <p className='d-inline-block'>Mã SV</p> <span className='text-danger'>{errors.id}</span>
+                <p className='d-inline-block'>Mã SV</p> <span className='text-danger'>{errors.key}</span>
                 <input
-                  type="number" id='id' uniqe="id"
-                  min-maxLength="[2,5]" data-type="number"
+                  type="id" id='key' uniqe="id"
+                  min-maxLength="[3,5]" data-type="id"
                   className='form-control' onChange={this.handleInput}
-                  value={student.id} disabled={!disabled}
+                  value={student.key} disabled={!disabled}
                 // disabled={this.props.student}
                 />
               </div>
@@ -173,4 +181,4 @@ const mapStateToProps = state => ({
   disabled: state.disabled
 })
 
-export default connect(mapStateToProps)(InputForm);
+export default connect(mapStateToProps)(InputField);
